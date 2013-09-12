@@ -1,0 +1,135 @@
+# Mitchell Wolfe
+# Tuesday September
+# git repository url: 
+
+# Part1: Hello World
+class HelloWorldClass
+	def initialize(name)
+		@name = name.capitalize
+	end
+	def sayHi
+		puts "Hello #{@name}!"
+	end
+end
+
+#hello = HelloWorldClass.new("mitchell")
+#hello.sayHi
+
+
+# Part2-a: Palindrome
+def palindrome?(string)
+	word = string
+	word = word.downcase
+	word = word.gsub(/[^a-z]/,'')
+	reverse = word.reverse
+	p reverse
+	if word == reverse
+		return true
+	else
+		return false
+	end
+end
+
+#p palindrome?("!R.a,cecar")
+#p palindrome?("A man, a plan, a canal -- Panama")  
+#p palindrome?("Madam, I'm Adam!")                 
+#p palindrome?("Abracadabra")
+
+
+# Part2-b: word count
+def count_words(string)
+	word = string
+	word.downcase!
+	split_words = word.split
+	hash = Hash.new(0)
+	split_words.each { |word| hash[word] += 1 }
+	return hash
+end
+
+#p count_words "Doo bee doo bee doo"
+
+#p count_words("A man, a plan, a canal -- Panama")
+
+
+# Part3-a: Rock Paper Scissors game winner
+class WrongNumberOfPlayersError <  StandardError ; end
+class NoSuchStrategyError <  StandardError ; end
+
+def rps_game_winner(game)
+    	raise WrongNumberOfPlayersError unless game.length == 2
+	valid = ["r","p","s"]	
+	a1=[(game[0][1]).downcase]
+ 	a2=[(game[1][1]).downcase]
+	raise NoSuchStrategyError unless (valid & a1) && (valid & a2)   
+
+	return (game[0]) if a1 === a2
+	  case (a1[0])
+	  when "r"
+	    case (a2[0])
+	    when "p"
+	      return (game[1])
+	    else 
+	      return (game[0])
+	    end
+	  when "p"
+	    case (a2[0])
+	    when "s"
+	      return (game[1])
+	    else
+	      return (game[0])
+	    end
+	  when "s"
+	    case (a2[0])
+	    when "r"
+	      return (game[1])
+	    else 
+	      return (game[0])
+	    end
+	end	
+end
+
+# Part3-b
+def rps_tournament_winner(tournament)
+    if tournament[0][0].is_a? String
+        return rps_game_winner(tournament)
+    end
+    return rps_game_winner([rps_tournament_winner(tournament[0]),rps_tournament_winner(tournament[1])])
+end
+
+array = [
+    [
+        [ ["Armando", "P"], ["Dave", "S"] ],
+        [ ["Richard", "R"],  ["Michael", "S"] ],
+    ],
+    [
+        [ ["Allen", "S"], ["Omer", "P"] ],
+        [ ["David E.", "R"], ["Richard X.", "P"] ]
+    ]
+]
+
+# p rps_tournament_winner(array)
+
+#Part4: Anagrams
+def combine_anagrams(words)
+ash = Hash.new
+  words.each do |str|
+     sorted = str.chars.sort.join
+     if (hash[sorted]== nil)
+       hash[sorted] = Array.new
+     end
+     arr = hash[sorted]
+     arr[arr.length] = str
+     hash[sorted] = arr
+     arr = nil
+  end
+ 
+  hash.values
+end
+
+words = ['cars', 'for', 'potatoes', 'racs', 'four', 'scar', 'creams', 'scream']
+p combine_anagrams(words)
+
+
+
+
+
